@@ -1,29 +1,19 @@
-import pandas as pd
+import os , sys
 import requests
 from bs4 import BeautifulSoup
 import numpy as np
-import sys
-import os
 
 cwd = os.getcwd()
+
 sys.path.append(os.path.join(cwd, '..'))
+
 from Flipkart_Scraping.DbConnection import add_to_products
 from Flipkart_Scraping.utils import get_format_link
 
-brands = np.array(['Samsung',
-                   'Apple',
-                   'Infinix',
-                   'Acer',
-                   'MSI',
-                   'Dell',
-                   'Lenovo',
-                   'Hp',
-                   'Asus',])
-
-
+brands = np.array(['Redmi', 'Samsung', 'Poco', 'Vivo', 'Google', 'Apple', "Mi", 'Oneplus', 'Lava', 'Asus','Iqoo', 'Sony'])
 for brand in brands:
 
-    mobiles_base_url = "https://www.flipkart.com/search?q="+brand+"+laptop&sid=6bo%2Cb5g&as=on&as-show=on&otracker=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&otracker1=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&as-pos=1&as-type=RECENT&suggestionId=hp+laptop%7CLaptops&requestId=44a9b0cc-6acb-4bc7-a211-5fffa5125ce7&as-backfill=on&sort=recency_desc"
+    mobiles_base_url = "https://www.flipkart.com/mobiles/pr?sid=tyy%2C4io&p%5B%5D=facets.brand%255B%255D%3D" + brand + "&param=1112&ctx=eyJjYXJkQ29udGV4dCI6eyJhdHRyaWJ1dGVzIjp7InRpdGxlIjp7Im11bHRpVmFsdWVkQXR0cmlidXRlIjp7ImtleSI6InRpdGxlIiwiaW5mZXJlbmNlVHlwZSI6IlRJVExFIiwidmFsdWVzIjpbIlJlYWxtZSBzbWFydHBobmVzIl0sInZhbHVlVHlwZSI6Ik1VTFRJX1ZBTFVFRCJ9fX19fX0%3D&wid=16.productCard.PMU_V2_15&sort=recency_desc"
 
 
 
@@ -43,7 +33,7 @@ for brand in brands:
         for product in products:
             img_element = product.find('img', attrs={'class': 'DByuf4'})
             cover_img = img_element.get('src') if img_element else None
-            cover_img = get_format_link(cover_img, old_value="312", new_value="3000")
+            cover_img = get_format_link(cover_img , old_value="312", new_value="3000")
 
             title_element = product.find('div', attrs={'class': 'KzDlHZ'})
             title = title_element.get_text(" ") if title_element else None
@@ -74,6 +64,7 @@ for brand in brands:
             for img in img_elements:
                 img_link = get_format_link(link=img.attrs['src'], old_value="128", new_value="1000")
                 img_list.append(img_link)
+
             desc_long = {}
             desc_elements = soup.find_all('div', attrs={'class': 'pqHCzB'})
 
@@ -104,9 +95,9 @@ for brand in brands:
                     spec_rows_dict.update(dict1)
                 spec_full.update({str(spec_head): spec_rows_dict})
 
-            response = add_to_products(category="Laptops",brand=brand, title=title, link=c_link, price=price, rating=rating,
-                                       desc_short=desc_short, cover_img=cover_img, img_list=img_list,
-                                       desc_long=desc_long, specification=spec_full)
+            response = add_to_products(category="Mobiles",brand=brand, title=title, link=c_link, price=price, rating=rating,
+                                         desc_short=desc_short, cover_img=cover_img, img_list=img_list,
+                                         desc_long=desc_long, specification=spec_full)
             print(response)
 
             # df = df._append(dict1, ignore_index=True)
