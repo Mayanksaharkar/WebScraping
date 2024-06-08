@@ -95,7 +95,7 @@ for brand in brands:
                     spec_rows_dict.update(dict1)
                 spec_full.update({str(spec_head): spec_rows_dict})
 
-            response = add_to_products(category="Mobiles",brand=brand, title=title, link=c_link, price=price, rating=rating,
+            response = add_to_products(type="",category="Mobiles",brand=brand, title=title, link=c_link, price=price, rating=rating,
                                          desc_short=desc_short, cover_img=cover_img, img_list=img_list,
                                          desc_long=desc_long, specification=spec_full)
             print(response)

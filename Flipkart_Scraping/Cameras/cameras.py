@@ -1,20 +1,25 @@
 import os, sys
+
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-import numpy as np
 
 cwd = os.getcwd()
 sys.path.append(os.path.join(cwd, '..'))
 from Flipkart_Scraping.DbConnection import add_to_products
 from Flipkart_Scraping.utils import get_format_link
 
-brands = np.array(['Canon', 'NIKON', 'SONY', 'Panasonic', 'FUJIFILM'])
+df = pd.DataFrame(
+    columns=['category', 'title', 'brand', 'link', 'price', 'rating', 'desc_short', 'desc_long', 'cover_img',
+             'img_list', 'specification'])
+
+brands = ['Canon', 'NIKON', 'SONY', 'PANASONIC', 'FUJIFILM']
 for brand in brands:
 
-    mobiles_base_url = "https://www.flipkart.com/search?q=" + brand + "+cameras&sid=jek%2Cp31%2Ctrv&as=on&as-show=on&otracker=AS_QueryStore_OrganicAutoSuggest_1_6_na_na_ps&otracker1=AS_QueryStore_OrganicAutoSuggest_1_6_na_na_ps&as-pos=1&as-type=RECENT&suggestionId=canon+cameras%7CDSLR+%26+Mirrorless&requestId=2273662c-f221-45d0-ac7e-d6aca98b1cec&as-backfill=on&sort=recency_desc"
+    cameras_base_url = "https://www.flipkart.com/search?q=" + brand + "+camera&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off&sort=recency_desc"
 
     page_links = []
-    response = requests.get(mobiles_base_url)
+    response = requests.get(cameras_base_url)
     soup = BeautifulSoup(response.text, 'html.parser')
     data = soup.find_all('a', attrs={'class': 'cn++Ap'})
     for page in data:
@@ -91,10 +96,14 @@ for brand in brands:
                     spec_rows_dict.update(dict1)
                 spec_full.update({str(spec_head): spec_rows_dict})
 
-            response = add_to_products(category="Cameras", brand=brand, title=title, link=c_link, price=price,
+            response = add_to_products(type="",category="Cameras", brand=brand, title=title, link=c_link, price=price,
                                        rating=rating,
                                        desc_short=desc_short, cover_img=cover_img, img_list=img_list,
                                        desc_long=desc_long, specification=spec_full)
+
+            # print(brand, title, link, price, rating, desc_short, desc_long, cover_img, img_list, spec_full)
+
             print(response)
 
             # df = df._append(dict1, ignore_index=True)
+print(df)
