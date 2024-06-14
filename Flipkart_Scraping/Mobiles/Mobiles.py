@@ -21,7 +21,7 @@ def get_mobiles_data():
         page_links = []
         response = requests.get(mobiles_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=4)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=2)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
 

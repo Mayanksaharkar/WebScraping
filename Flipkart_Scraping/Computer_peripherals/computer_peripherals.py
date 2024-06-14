@@ -21,7 +21,7 @@ def get_computer_peripherals_data():
         page_links = []
         response = requests.get(mobiles_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=4)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=2)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
 
@@ -42,7 +42,7 @@ def get_computer_peripherals_data():
                 title = title_ele.get_text("") if title_ele else None
 
                 brand = title.split(" ")[0] if title else None
-                print(brand)
+
 
                 img_eles = soup.find_all('li', attrs={'class': 'YGoYIP Ueh1GZ'})
                 img_list = []
@@ -101,5 +101,5 @@ def get_computer_peripherals_data():
                                            specification=spec_full, link=link, img_list=img_list, cover_img=cover_img)
                 print(response)
 
-        print("********************************************" + type + " done")
+
     # print(df)

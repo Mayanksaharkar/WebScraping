@@ -6,30 +6,31 @@ import sys
 import os
 
 cwd = os.getcwd()
+
 sys.path.append(os.path.join(cwd, '..'))
+
 from Flipkart_Scraping.DbConnection import add_to_products
-from Flipkart_Scraping.utils import get_format_link
+
+brands = np.array(['Samsung',
+                   'Apple',
+                   'Infinix',
+                   'Acer',
+                   'MSI',
+                   'Dell',
+                   'Lenovo',
+                   'Hp',
+                   'Asus', ])
 
 
-def get_laptops_data():
-    brands = np.array(['Samsung',
-                       'Apple',
-                       'Infinix',
-                       'Acer',
-                       'MSI',
-                       'Dell',
-                       'Lenovo',
-                       'Hp',
-                       'Asus', ])
-
+def get_Laptops_data():
     for brand in brands:
 
-        laptops_base_url = "https://www.flipkart.com/search?q=" + brand + "+laptop&sid=6bo%2Cb5g&as=on&as-show=on&otracker=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&otracker1=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&as-pos=1&as-type=RECENT&suggestionId=hp+laptop%7CLaptops&requestId=44a9b0cc-6acb-4bc7-a211-5fffa5125ce7&as-backfill=on&sort=recency_desc"
+        Laptops_base_url = "https://www.flipkart.com/search?q=" + brand + "+laptop&sid=6bo%2Cb5g&as=on&as-show=on&otracker=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&otracker1=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&as-pos=1&as-type=RECENT&suggestionId=hp+laptop%7CLaptops&requestId=44a9b0cc-6acb-4bc7-a211-5fffa5125ce7&as-backfill=on&sort=recency_desc"
 
         page_links = []
-        response = requests.get(laptops_base_url)
+        response = requests.get(Laptops_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=4)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'},limit=2)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
 
@@ -41,7 +42,6 @@ def get_laptops_data():
             for product in products:
                 img_element = product.find('img', attrs={'class': 'DByuf4'})
                 cover_img = img_element.get('src') if img_element else None
-                cover_img = get_format_link(cover_img, old_value="312", new_value="3000")
 
                 title_element = product.find('div', attrs={'class': 'KzDlHZ'})
                 title = title_element.get_text(" ") if title_element else None
@@ -70,9 +70,8 @@ def get_laptops_data():
                 img_elements = soup.find_all('img', attrs={'class': '_0DkuPH'})
                 img_list = []
                 for img in img_elements:
-                    img_link = get_format_link(link=img.attrs['src'], old_value="128", new_value="1000")
-                    img_list.append(img_link)
-                desc_long = {}
+                    img_list.append(img.attrs['src'])
+                desc_long = []
                 desc_elements = soup.find_all('div', attrs={'class': 'pqHCzB'})
 
                 for desc_element in desc_elements:
@@ -81,31 +80,31 @@ def get_laptops_data():
                     desc_p_ele = desc_element.find('p')
                     desc_p = desc_p_ele.get_text(" ") if desc_p_ele else None
 
-                    dict1 = {str(desc_head): str(desc_p)}
-                    desc_long.update(dict1)
+                    dict1 = {'title': str(desc_head), 'discription': str(desc_p)}
+
+                    desc_long.append(dict1)
                 # print(desc_full)
 
                 spec_containers = soup.find_all('div', attrs={'class': 'GNDEQ-'})
-                spec_full = {}
+                spec_full = []
                 for container in spec_containers:
                     spec_head_ele = container.find('div', attrs={'class': '_4BJ2V+'})
                     spec_head = spec_head_ele.get_text(" ") if spec_head_ele else None
                     spec_rows = container.find_all('tr', attrs={'class': 'WJdYP6'})
-                    spec_rows_dict = {}
+                    spec_rows_list = []
 
                     for spec_row in spec_rows:
                         spec_key_ele = spec_row.find('td', attrs={'class': '+fFi1w'})
                         spec_key = spec_key_ele.get_text(" ") if spec_key_ele else None
                         spec_value_ele = spec_row.find('li', attrs={'class': 'HPETK2'})
                         spec_value = spec_value_ele.get_text(" ") if spec_value_ele else None
-                        dict1 = {str(spec_key): spec_value}
-                        spec_rows_dict.update(dict1)
-                    spec_full.update({str(spec_head): spec_rows_dict})
+                        # dict1 = {str(spec_key): spec_value}
+                        dict1 = {"spec_title": str(spec_key), "spec_body": str(spec_value)}
+                        spec_rows_list.append(dict1)
+                    spec_full.append({'title': str(spec_head), 'spec_row_list': spec_rows_list})
 
-                response = add_to_products(type=type, category="Laptops", brand=brand, title=title, link=c_link,
+                response = add_to_products(type="All", category="Laptops", brand=brand, title=title, link=c_link,
                                            price=price, rating=rating,
                                            desc_short=desc_short, cover_img=cover_img, img_list=img_list,
                                            desc_long=desc_long, specification=spec_full)
                 print(response)
-
-                # df = df._append(dict1, ignore_index=True)

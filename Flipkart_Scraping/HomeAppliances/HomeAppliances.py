@@ -11,9 +11,7 @@ from Flipkart_Scraping.utils import get_format_link
 
 
 def get_HomeAppliances_data():
-
     types = ['Television', 'Refrigerator', 'washing machine', 'air conditioners']
-
 
     for type in types:
 
@@ -22,17 +20,15 @@ def get_HomeAppliances_data():
         page_links = []
         response = requests.get(mobiles_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=4)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=2)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
-
 
         for link in page_links:
             response = requests.get(link)
             soup = BeautifulSoup(response.text, 'html.parser')
             class_values = ['CGtC98', 'wjcEIp']
             products = soup.find_all('a', class_=lambda c: c and any(cls in c.split() for cls in class_values))
-
 
             prod_links = []
             for product in products:
@@ -45,7 +41,6 @@ def get_HomeAppliances_data():
                 title = title_ele.get_text("") if title_ele else None
 
                 brand = title.split(" ")[0] if title else None
-                print(brand)
 
                 img_eles = soup.find_all('li', attrs={'class': 'YGoYIP Ueh1GZ'})
                 img_list = []
@@ -58,9 +53,9 @@ def get_HomeAppliances_data():
                 cover_img = get_format_link(img_list[0], "1000", "3000") if img_list else None
 
                 rating = soup.find('div', attrs={'class': "XQDdHH"})
-                rating = float(rating.get_text(" ")) if rating else  None
+                rating = float(rating.get_text(" ")) if rating else None
 
-                price_ele = soup.find('div', attrs={'class':'Nx9bqj CxhGGd'})
+                price_ele = soup.find('div', attrs={'class': 'Nx9bqj CxhGGd'})
                 price = price_ele.get_text(" ") if price_ele else None
 
                 desc_container = soup.find('div', attrs={'class': 'xFVion'})
@@ -99,9 +94,9 @@ def get_HomeAppliances_data():
 
                 # print( title, img_list, desc_short, rating, desc_long, spec_full, price , link)
 
+                response = add_to_products(type=type, category="HomeAppliances", brand=brand, title=title,
+                                           rating=rating, price=price, desc_short=desc_short, desc_long=desc_long,
+                                           specification=spec_full, link=link, img_list=img_list, cover_img=cover_img)
+                print(response)
 
-                response = add_to_products(type= type, category="HomeAppliances", brand=brand , title=title , rating=rating, price=price , desc_short=desc_short,  desc_long=desc_long, specification= spec_full, link=link , img_list=img_list ,cover_img=cover_img)
-                # print(response)
-
-        print("********************************************"+type +" done")
 # print(df)
