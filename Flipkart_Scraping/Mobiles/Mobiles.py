@@ -9,14 +9,14 @@ sys.path.append(os.path.join(cwd, '..'))
 
 from Flipkart_Scraping.DbConnection import add_to_products
 from Flipkart_Scraping.utils import get_format_link
-def scrap_mobiles_data():
 
+
+def scrap_mobiles():
     brands = np.array(
         ['Redmi', 'Samsung', 'Poco', 'Vivo', 'Google', 'Apple', "Mi", 'Oneplus', 'Lava', 'Asus', 'Iqoo', 'Sony'])
     for brand in brands:
 
         mobiles_base_url = "https://www.flipkart.com/mobiles/pr?sid=tyy%2C4io&p%5B%5D=facets.brand%255B%255D%3D" + brand + "&param=1112&ctx=eyJjYXJkQ29udGV4dCI6eyJhdHRyaWJ1dGVzIjp7InRpdGxlIjp7Im11bHRpVmFsdWVkQXR0cmlidXRlIjp7ImtleSI6InRpdGxlIiwiaW5mZXJlbmNlVHlwZSI6IlRJVExFIiwidmFsdWVzIjpbIlJlYWxtZSBzbWFydHBobmVzIl0sInZhbHVlVHlwZSI6Ik1VTFRJX1ZBTFVFRCJ9fX19fX0%3D&wid=16.productCard.PMU_V2_15&sort=recency_desc"
-        # mobiles_base_url = "https://www.flipkart.com/mobiles/pr?sid=tyy%2C4io&p%5B%5D=facets.brand%255B%255D%3DMotorola&param=1112&ctx=eyJjYXJkQ29udGV4dCI6eyJhdHRyaWJ1dGVzIjp7InRpdGxlIjp7Im11bHRpVmFsdWVkQXR0cmlidXRlIjp7ImtleSI6InRpdGxlIiwiaW5mZXJlbmNlVHlwZSI6IlRJVExFIiwidmFsdWVzIjpbIlJlYWxtZSBzbWFydHBobmVzIl0sInZhbHVlVHlwZSI6Ik1VTFRJX1ZBTFVFRCJ9fX19fX0%3D&wid=16.productCard.PMU_V2_15&sort=recency_desc"
 
         page_links = []
         response = requests.get(mobiles_base_url)
@@ -97,7 +97,8 @@ def scrap_mobiles_data():
                         spec_rows_list.append(dict1)
                     spec_full.append({'title': str(spec_head), 'spec_row_list': spec_rows_list})
 
-                response = add_to_products(type="", category="Mobiles", brand=brand, title=title, link=c_link, price=price,
+                response = add_to_products(type="", category="Mobiles", brand=brand, title=title, link=c_link,
+                                           price=price,
                                            rating=rating,
                                            desc_short=desc_short, cover_img=cover_img, img_list=img_list,
                                            desc_long=desc_long, specification=spec_full)

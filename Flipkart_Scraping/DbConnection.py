@@ -6,7 +6,7 @@ load_dotenv()
 
 def ConnectToDB():
     client = MongoClient(os.getenv('MONGO_URI'))
-    db = client['Ecommerce']
+    db = client['ProductDB']
     print(client)
     return db
 

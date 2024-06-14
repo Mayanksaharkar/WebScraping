@@ -22,7 +22,7 @@ brands = np.array(['Samsung',
                    'Asus', ])
 
 
-def scrap_Laptops_data():
+def scrap_Laptops():
     for brand in brands:
 
         Laptops_base_url = "https://www.flipkart.com/search?q=" + brand + "+laptop&sid=6bo%2Cb5g&as=on&as-show=on&otracker=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&otracker1=AS_QueryStore_OrganicAutoSuggest_1_2_na_na_ps&as-pos=1&as-type=RECENT&suggestionId=hp+laptop%7CLaptops&requestId=44a9b0cc-6acb-4bc7-a211-5fffa5125ce7&as-backfill=on&sort=recency_desc"
