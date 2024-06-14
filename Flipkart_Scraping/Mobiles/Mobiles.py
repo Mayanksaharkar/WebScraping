@@ -9,7 +9,7 @@ sys.path.append(os.path.join(cwd, '..'))
 
 from Flipkart_Scraping.DbConnection import add_to_products
 from Flipkart_Scraping.utils import get_format_link
-def get_mobiles_data():
+def scrap_mobiles_data():
 
     brands = np.array(
         ['Redmi', 'Samsung', 'Poco', 'Vivo', 'Google', 'Apple', "Mi", 'Oneplus', 'Lava', 'Asus', 'Iqoo', 'Sony'])

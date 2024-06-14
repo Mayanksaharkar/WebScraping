@@ -12,7 +12,7 @@ from Flipkart_Scraping.utils import get_format_link
 # df = pd.DataFrame(
 #     columns=['category', 'title', 'brand', 'link', 'price', 'rating', 'desc_short', 'desc_long', 'cover_img',
 #              'img_list', 'specification'])
-def get_cameras_data():
+def scrap_cameras_data():
 
 
     brands = ['Canon', 'NIKON', 'SONY', 'PANASONIC', 'FUJIFILM']

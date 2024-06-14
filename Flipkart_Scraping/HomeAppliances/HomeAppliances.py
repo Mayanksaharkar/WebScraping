@@ -10,7 +10,7 @@ from Flipkart_Scraping.DbConnection import add_to_products
 from Flipkart_Scraping.utils import get_format_link
 
 
-def get_HomeAppliances_data():
+def scrap_HomeAppliances_data():
     types = ['Television', 'Refrigerator', 'washing machine', 'air conditioners']
 
     for type in types:
