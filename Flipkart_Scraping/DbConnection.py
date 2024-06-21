@@ -13,7 +13,7 @@ def ConnectToDB():
 
 def add_to_products(type,category, brand, title, link, price, rating, desc_short, cover_img, img_list, desc_long,
                     specification):
-    collection = db['Products']
+    collection = db['products']
     new_doc = {'type':type,'category': category, 'brand': brand, 'title': title, 'link': link, 'price': price, 'rating': rating,
                'desc_short': desc_short,
                'cover_img': cover_img, 'img_list': img_list, 'desc_long': desc_long, 'specification': specification}

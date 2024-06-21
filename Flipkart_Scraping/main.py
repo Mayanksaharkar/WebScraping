@@ -13,14 +13,14 @@ from HomeAppliances.HomeAppliances import scrap_HomeAppliances
 
 def scrap_all_data():
     try:
-        # scrap_mobiles()
-        # print("Mobile data scraped successfully.")
-        #
-        # scrap_Laptops()
-        # print("Laptop data scraped successfully.")
-        #
-        # scrap_computer_peripherals()
-        # print("Computer peripherals data scraped successfully.")
+        scrap_mobiles()
+        print("Mobile data scraped successfully.")
+
+        scrap_Laptops()
+        print("Laptop data scraped successfully.")
+
+        scrap_computer_peripherals()
+        print("Computer peripherals data scraped successfully.")
 
         scrap_HomeAppliances()
         print("Home appliances data scraped successfully.")

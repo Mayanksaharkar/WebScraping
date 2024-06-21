@@ -10,7 +10,7 @@ cwd = os.getcwd()
 sys.path.append(os.path.join(cwd, '..'))
 
 from Flipkart_Scraping.DbConnection import add_to_products
-
+from Flipkart_Scraping.utils import get_format_link
 brands = np.array(['Samsung',
                    'Apple',
                    'Infinix',
@@ -30,18 +30,19 @@ def scrap_Laptops():
         page_links = []
         response = requests.get(Laptops_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'},limit=2)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'},limit=1)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
 
         for link in page_links:
             response = requests.get(link)
             soup = BeautifulSoup(response.text, 'html.parser')
-            products = soup.find_all('a', attrs={'class': 'CGtC98'})
+            products = soup.find_all('a', attrs={'class': 'CGtC98'}, limit=3)
 
             for product in products:
                 img_element = product.find('img', attrs={'class': 'DByuf4'})
                 cover_img = img_element.get('src') if img_element else None
+                cover_img = get_format_link(cover_img, "312","512")
 
                 title_element = product.find('div', attrs={'class': 'KzDlHZ'})
                 title = title_element.get_text(" ") if title_element else None
@@ -51,6 +52,9 @@ def scrap_Laptops():
 
                 price_element = product.find('div', attrs={'class': 'Nx9bqj _4b5DiR'})
                 price = price_element.get_text(" ") if price_element else None
+                price  = get_format_link(price , "₹" ,"") if price_element else None
+                price  = get_format_link(price , "," ,"") if price_element else None
+                price = int(price, 10) if price else None
 
                 desc = product.find_all('li', attrs={'class': 'J+igdf'})
                 desc_short = []
@@ -70,7 +74,10 @@ def scrap_Laptops():
                 img_elements = soup.find_all('img', attrs={'class': '_0DkuPH'})
                 img_list = []
                 for img in img_elements:
-                    img_list.append(img.attrs['src'])
+                    # img_list.append(img.attrs['src'])
+                    image_link = img.attrs['src'] if img else None
+                    image_link = get_format_link(image_link, "128","3000")
+                    img_list.append(image_link)
                 desc_long = []
                 desc_elements = soup.find_all('div', attrs={'class': 'pqHCzB'})
 
@@ -108,3 +115,6 @@ def scrap_Laptops():
                                            desc_short=desc_short, cover_img=cover_img, img_list=img_list,
                                            desc_long=desc_long, specification=spec_full)
                 print(response)
+
+                # print(title, price, rating, desc_short, desc_long, spec_full , img_list, brand , c_link ,cover_img)
+                # exit()
