@@ -100,7 +100,7 @@ def scrap_HomeAppliances():
 
                 # print( title, img_list, desc_short, rating, desc_long, spec_full, price , link)
 
-                response = add_to_products(type=type, category="HomeAppliances", brand=brand, title=title,
+                response = add_to_products(type=type, category="homeAppliances", brand=brand, title=title,
                                            rating=rating, price=price, desc_short=desc_short, desc_long=desc_long,
                                            specification=spec_full, link=link, img_list=img_list, cover_img=cover_img)
                 print(response)

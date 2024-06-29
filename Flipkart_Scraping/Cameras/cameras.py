@@ -103,7 +103,7 @@ def scrap_cameras():
                         spec_rows_list.append(dict1)
                     spec_full.append({'title': str(spec_head), 'spec_row_list': spec_rows_list})
 
-                response = add_to_products(type="",category="Cameras", brand=brand, title=title, link=c_link, price=price,
+                response = add_to_products(type="",category="cameras", brand=brand, title=title, link=c_link, price=price,
                                            rating=rating,
                                            desc_short=desc_short, cover_img=cover_img, img_list=img_list,
                                            desc_long=desc_long, specification=spec_full)

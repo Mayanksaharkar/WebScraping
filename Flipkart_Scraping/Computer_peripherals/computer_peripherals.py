@@ -98,7 +98,7 @@ def scrap_computer_peripherals():
                         spec_rows_list.append(dict1)
                     spec_full.append({'title': str(spec_head), 'spec_row_list': spec_rows_list})
 
-                response = add_to_products(type=type, category="Computer Peripherals", brand=brand, title=title,
+                response = add_to_products(type=type, category="computerPeripherals", brand=brand, title=title,
                                            rating=rating, price=price, desc_short=desc_short, desc_long=desc_long,
                                            specification=spec_full, link=link, img_list=img_list, cover_img=cover_img)
                 print(response)
