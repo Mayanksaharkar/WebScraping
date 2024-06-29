@@ -21,14 +21,14 @@ def scrap_mobiles():
         page_links = []
         response = requests.get(mobiles_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=1)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=3)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
 
         for link in page_links:
             response = requests.get(link)
             soup = BeautifulSoup(response.text, 'html.parser')
-            products = soup.find_all('a', attrs={'class': 'CGtC98'}, limit=3)
+            products = soup.find_all('a', attrs={'class': 'CGtC98'}, limit=5)
 
             for product in products:
                 img_element = product.find('img', attrs={'class': 'DByuf4'})

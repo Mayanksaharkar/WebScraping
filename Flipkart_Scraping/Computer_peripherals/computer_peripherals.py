@@ -21,7 +21,7 @@ def scrap_computer_peripherals():
         page_links = []
         response = requests.get(mobiles_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=1)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=3)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
 

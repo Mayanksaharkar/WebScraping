@@ -13,7 +13,7 @@ def ConnectToDB():
 
 def add_to_products(type, category, brand, title, link, price, rating, desc_short, cover_img, img_list, desc_long, specification):
 
-    if any(v is None or v == "" or v == [] for v in [type, category, brand, title, link, price, rating, desc_short, cover_img, img_list, desc_long, specification]):
+    if any(v is None or v == "" or v == [] for v in [ category, title, link, price, rating, cover_img, img_list, ]):
         return 'One or more parameters are empty or None'
 
     collection = db['products']

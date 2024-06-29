@@ -20,7 +20,7 @@ def scrap_HomeAppliances():
         page_links = []
         response = requests.get(mobiles_base_url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=1)
+        data = soup.find_all('a', attrs={'class': 'cn++Ap'}, limit=4)
         for page in data:
             page_links.append("https://www.flipkart.com" + page.attrs['href'])
 
@@ -28,7 +28,7 @@ def scrap_HomeAppliances():
             response = requests.get(link)
             soup = BeautifulSoup(response.text, 'html.parser')
             class_values = ['CGtC98', 'wjcEIp']
-            products = soup.find_all('a', class_=lambda c: c and any(cls in c.split() for cls in class_values) , limit=3)
+            products = soup.find_all('a', class_=lambda c: c and any(cls in c.split() for cls in class_values) , limit=5)
 
             prod_links = []
             for product in products:
